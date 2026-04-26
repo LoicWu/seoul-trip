@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seoul Trip 2026 | Yichen & Linda</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+
+:root {
+  --bg: #f8f6f3;
+  --card: #ffffff;
+  --text: #2d2d2d;
+  --text-light: #6b6b6b;
+  --accent: #c9a96e;
+  --accent-dark: #a8864e;
+  --blue: #4a7c96;
+  --green: #5a8a6a;
+  --pink: #c47d8a;
+  --orange: #d4956a;
+  --purple: #8a7ab5;
+  --red: #c45c5c;
+  --border: #e8e4df;
+  --shadow: 0 2px 20px rgba(0,0,0,0.06);
+  --radius: 16px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Noto Sans SC', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Hero ── */
+.hero {
+  position: relative;
+  height: 100vh;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('https://images.unsplash.com/photo-1546874177-9e664107314e?w=1600&h=900&fit=crop') center/cover;
+  opacity: 0.35;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  color: white;
+}
+
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+.hero .subtitle {
+  font-size: 1.2rem;
+  font-weight: 300;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  opacity: 0.8;
+  margin-bottom: 24px;
+}
+
+.hero .dates {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(10px);
+  padding: 12px 28px;
+  border-radius: 40px;
+  font-size: 0.95rem;
+  letter-spacing: 1px;
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  opacity: 0.6;
+  animation: bounce 2s infinite;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+@keyframes bounce {
+  0%,100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(10px); }
+}
+
+/* ── Nav Tabs ── */
+.nav-wrap {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(248,246,243,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-tabs {
+  display: flex;
+  max-width: 900px;
+  margin: 0 auto;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.nav-tabs::-webkit-scrollbar { display: none; }
+
+.nav-tab {
+  flex: 1;
+  min-width: 100px;
+  padding: 16px 12px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 400;
+  color: var(--text-light);
+  border-bottom: 3px solid transparent;
+  transition: all 0.3s;
+  white-space: nowrap;
+}
+
+.nav-tab:hover { color: var(--text); }
+.nav-tab.active {
+  color: var(--accent-dark);
+  border-bottom-color: var(--accent);
+  font-weight: 600;
+}
+
+.nav-tab .day-num { font-family: 'Playfair Display',serif; font-size: 1.3rem; display: block; }
+.nav-tab .day-label { font-size: 0.72rem; margin-top: 2px; }
+
+/* ── Container ── */
+.container {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ── Day Section ── */
+.day-section {
+  display: none;
+  padding: 40px 0 80px;
+  animation: fadeIn 0.5s ease;
+}
+.day-section.active { display: block; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ── Day Header ── */
+.day-header {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 32px;
+  height: 280px;
+}
+
+.day-header img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.day-header-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 60%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 28px;
+  color: white;
+}
+
+.day-header-overlay h2 {
+  font-family: 'Playfair Display',serif;
+  font-size: 2rem;
+  margin-bottom: 4px;
+}
+
+.day-header-overlay .theme { font-weight: 300; font-size: 0.95rem; opacity: 0.85; }
+
+/* ── Hotel Badge ── */
+.hotel-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--card);
+  padding: 12px 20px;
+  border-radius: 40px;
+  box-shadow: var(--shadow);
+  font-size: 0.88rem;
+  margin-bottom: 28px;
+  border: 1px solid var(--border);
+}
+
+.hotel-badge .icon { font-size: 1.1rem; }
+.hotel-badge .warn { color: var(--red); font-weight: 500; }
+
+/* ── Section Title ── */
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 32px 0 16px;
+  color: var(--text);
+}
+
+.section-title .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/* ── Timeline ── */
+.timeline { position: relative; padding-left: 28px; margin: 16px 0; }
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 4px;
+  bottom: 4px;
+  width: 2px;
+  background: var(--border);
+}
+
+.tl-item {
+  position: relative;
+  padding: 8px 0 20px;
+}
+
+.tl-item::before {
+  content: '';
+  position: absolute;
+  left: -24px;
+  top: 14px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid var(--bg);
+}
+
+.tl-item.flight::before { background: var(--blue); }
+.tl-item.food::before { background: var(--orange); }
+.tl-item.coffee::before { background: #8b6f47; }
+.tl-item.shop::before { background: var(--pink); }
+
+.tl-time {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--accent-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.tl-title { font-weight: 500; margin-top: 2px; }
+.tl-desc { font-size: 0.85rem; color: var(--text-light); margin-top: 2px; }
+.tl-tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  margin-top: 4px;
+}
+.tag-booked { background: #e8f5e9; color: #2e7d32; }
+.tag-reserve { background: #fff3e0; color: #e65100; }
+.tag-optional { background: #ede7f6; color: #5e35b1; }
+
+/* ── Cards Grid ── */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+  margin: 12px 0;
+}
+
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: default;
+}
+.card:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.1); }
+
+.card-img {
+  height: 160px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.card-img .card-cat {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: white;
+  backdrop-filter: blur(4px);
+}
+.cat-food { background: rgba(212,149,106,0.85); }
+.cat-coffee { background: rgba(139,111,71,0.85); }
+.cat-shop { background: rgba(196,125,138,0.85); }
+.cat-culture { background: rgba(138,122,181,0.85); }
+.cat-experience { background: rgba(90,138,106,0.85); }
+
+.card-body { padding: 16px; }
+.card-body h4 { font-size: 0.95rem; margin-bottom: 4px; }
+.card-body .card-area { font-size: 0.78rem; color: var(--accent-dark); margin-bottom: 6px; }
+.card-body p { font-size: 0.82rem; color: var(--text-light); line-height: 1.5; }
+.card-body .card-price { font-size: 0.82rem; color: var(--green); font-weight: 500; margin-top: 6px; }
+
+/* ── Store List ── */
+.store-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+  margin: 12px 0;
+}
+
+.store-item {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+  transition: all 0.3s;
+}
+.store-item:hover { border-color: var(--accent); background: #fffcf7; }
+
+.store-item h5 { font-size: 0.88rem; margin-bottom: 3px; }
+.store-item p { font-size: 0.78rem; color: var(--text-light); }
+.store-item .store-cat {
+  font-size: 0.7rem;
+  color: var(--pink);
+  font-weight: 500;
+}
+
+/* ── Alternative Box ── */
+.alt-box {
+  background: linear-gradient(135deg, #f5f0e8, #f0ece4);
+  border: 1px dashed var(--accent);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin: 20px 0;
+}
+
+.alt-box .alt-title {
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 12px;
+  color: var(--accent-dark);
+}
+
+.alt-option {
+  background: var(--card);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+  border: 1px solid var(--border);
+}
+.alt-option:last-child { margin-bottom: 0; }
+.alt-option h5 { font-size: 0.9rem; margin-bottom: 4px; }
+.alt-option .alt-label {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  background: var(--accent);
+  color: white;
+  margin-bottom: 6px;
+}
+.alt-option p { font-size: 0.82rem; color: var(--text-light); }
+
+/* ── Coffee Card ── */
+.coffee-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: linear-gradient(135deg, #3e2723, #4e342e);
+  color: white;
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin: 16px 0;
+}
+
+.coffee-card .coffee-icon { font-size: 2.5rem; }
+.coffee-card h4 { font-size: 1rem; margin-bottom: 2px; }
+.coffee-card .coffee-area { font-size: 0.8rem; opacity: 0.7; }
+.coffee-card .coffee-rec { font-size: 0.85rem; opacity: 0.9; margin-top: 4px; }
+
+/* ── Flight Card ── */
+.flight-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  margin: 12px 0;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.flight-card .plane { font-size: 2rem; }
+.flight-route { display: flex; align-items: center; gap: 16px; }
+.flight-city { text-align: center; }
+.flight-city .code { font-family: 'Playfair Display',serif; font-size: 1.5rem; font-weight: 700; }
+.flight-city .time { font-size: 0.82rem; color: var(--text-light); }
+.flight-arrow { font-size: 0.85rem; color: var(--accent); }
+.flight-info { font-size: 0.82rem; color: var(--text-light); margin-left: auto; text-align: right; }
+.flight-info .fno { font-weight: 600; color: var(--text); }
+
+/* ── Reservation Summary ── */
+.reserve-summary {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin: 40px 0 0;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+.reserve-summary h3 {
+  font-size: 1rem;
+  margin-bottom: 16px;
+  color: var(--accent-dark);
+}
+.reserve-table { width: 100%; border-collapse: collapse; }
+.reserve-table th { text-align: left; font-size: 0.78rem; color: var(--text-light); padding: 8px 0; border-bottom: 1px solid var(--border); font-weight: 500; }
+.reserve-table td { font-size: 0.85rem; padding: 10px 0; border-bottom: 1px solid #f0ede8; }
+.status-done { color: var(--green); font-weight: 600; }
+.status-todo { color: var(--red); font-weight: 600; }
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .hero h1 { font-size: 2.8rem; }
+  .day-header { height: 200px; }
+  .cards-grid { grid-template-columns: 1fr; }
+  .store-list { grid-template-columns: 1fr 1fr; }
+  .flight-card { flex-direction: column; text-align: center; }
+  .flight-info { margin: 0; text-align: center; }
+  .coffee-card { flex-direction: column; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<section class="hero" onclick="document.querySelector('.nav-wrap').scrollIntoView({behavior:'smooth'})">
+  <div class="hero-content">
+    <h1>SEOUL</h1>
+    <div class="subtitle">Yichen & Linda</div>
+    <div class="dates">
+      <span>2026.05.01</span>
+      <span>-</span>
+      <span>2026.05.06</span>
+      <span style="opacity:0.5">|</span>
+      <span>5 Nights</span>
+    </div>
+  </div>
+  <div class="scroll-hint">Scroll to explore</div>
+</section>
+
+<!-- Nav -->
+<div class="nav-wrap">
+  <div class="nav-tabs" id="navTabs">
+    <div class="nav-tab active" onclick="showDay(0)"><span class="day-num">01</span><span class="day-label">FRI Arrive</span></div>
+    <div class="nav-tab" onclick="showDay(1)"><span class="day-num">02</span><span class="day-label">SAT Sinsa</span></div>
+    <div class="nav-tab" onclick="showDay(2)"><span class="day-num">03</span><span class="day-label">SUN Seongsu</span></div>
+    <div class="nav-tab" onclick="showDay(3)"><span class="day-num">04</span><span class="day-label">MON Gangnam</span></div>
+    <div class="nav-tab" onclick="showDay(4)"><span class="day-num">05</span><span class="day-label">TUE Yeonnam</span></div>
+    <div class="nav-tab" onclick="showDay(5)"><span class="day-num">06</span><span class="day-label">WED Return</span></div>
+  </div>
+</div>
+
+<!-- ============ DAY 1: May 1 ============ -->
+<div class="day-section active" id="day0">
+<div class="container">
+  <div class="day-header">
+    <img src="https://images.unsplash.com/photo-1617469767053-d3b523a0b982?w=1200&h=500&fit=crop" alt="Yeouido Seoul" loading="lazy">
+    <div class="day-header-overlay">
+      <h2>May 1 Friday</h2>
+      <div class="theme">Arrival Day / Yeouido</div>
+    </div>
+  </div>
+
+  <div class="hotel-badge"><span class="icon">🏨</span> Fairmont Ambassador Seoul <span style="color:var(--text-light);font-size:0.8rem">汝矣岛 · AMEX FHR · KRW 660,000</span></div>
+
+  <div class="section-title"><span class="dot" style="background:var(--blue)"></span> Flight Arrivals</div>
+
+  <div class="flight-card">
+    <div class="plane">✈️</div>
+    <div class="flight-route">
+      <div class="flight-city"><div class="code">HGH</div><div class="time">07:55</div></div>
+      <div class="flight-arrow">───➤</div>
+      <div class="flight-city"><div class="code">ICN</div><div class="time">10:55</div></div>
+    </div>
+    <div class="flight-info"><div class="fno">MU5071</div>Yichen · China Eastern</div>
+  </div>
+
+  <div class="flight-card">
+    <div class="plane">✈️</div>
+    <div class="flight-route">
+      <div class="flight-city"><div class="code">SEA</div><div class="time">13:00</div></div>
+      <div class="flight-arrow">───➤</div>
+      <div class="flight-city"><div class="code">ICN</div><div class="time">16:50+1</div></div>
+    </div>
+    <div class="flight-info"><div class="fno">DL0197</div>Linda · Delta · A350</div>
+  </div>
+
+  <div class="section-title"><span class="dot" style="background:var(--orange)"></span> Dinner</div>
+
+  <div class="cards-grid">
+    <div class="card">
+      <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=500&h=350&fit=crop')">
+        <span class="card-cat cat-food">Dinner</span>
+      </div>
+      <div class="card-body">
+        <h4>Atrio @ Conrad Seoul</h4>
+        <div class="card-area">汝矣岛 · 步行10分钟</div>
+        <p>开放式厨房意式料理，可望汉江景观，适合情侣约会</p>
+        <div class="card-price">人均 8-15万 KRW (¥370-690)</div>
+        <span class="tl-tag tag-reserve">需提前3-5天预约 CatchTable</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="alt-box">
+    <div class="alt-title">💡 备选方案</div>
+    <div class="alt-option">
+      <p>Linda长途飞行后可能疲惫，如果不想出门，Fairmont Ambassador 酒店本身也有不错的餐厅，可以在酒店内用餐后早休息。</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ============ DAY 2: May 2 ============ -->
+<div class="day-section" id="day1">
+<div class="container">
+  <div class="day-header">
+    <img src="https://images.unsplash.com/photo-1573165231977-3f0e27806d8b?w=1200&h=500&fit=crop" alt="Garosu-Gil" loading="lazy">
+    <div class="day-header-overlay">
+      <h2>May 2 Saturday</h2>
+      <div class="theme">Morning TBD + Garosu-Gil + Hannam-dong</div>
+    </div>
+  </div>
+
+  <div class="hotel-badge"><span class="icon">🏨</span> Grand Hyatt Seoul <span style="color:var(--text-light);font-size:0.8rem">汉南洞 · Hyatt Globalist · 2晚</span></div>
+
+  <div class="section-title"><span class="dot" style="background:var(--purple)"></span> Morning — Choose One</div>
+
+  <div class="alt-box">
+    <div class="alt-title">🎯 上午二选一（待定）</div>
+    <div class="alt-option">
+      <span class="alt-label">方案 A</span>
+      <h5>益善洞 Ikseon-dong</h5>
+      <p>首尔最火复古韩屋小巷，老式韩屋改成独立咖啡店、vintage服饰店和手工饰品店。氛围感极强，非常适合拍照。可顺路逛旁边的仁寺洞传统工艺品。</p>
+    </div>
+    <div class="alt-option">
+      <span class="alt-label">方案 B</span>
+      <h5>景福宫 + 北村韩屋村</h5>
+      <p>上午人少光线好，适合拍照。景福宫可租韩服体验（穿韩服免门票），北村韩屋村走一圈约1-1.5小时。整个行程中唯一的传统文化体验机会。</p>
+    </div>
+  </div>
+
+  <div class="section-title"><span class="dot" style="background:var(--pink)"></span> Afternoon — 新沙洞林荫道 Garosu-Gil</div>
+
+  <div class="store-list">
+    <div class="store-item">
+      <div class="store-cat">咖啡+服饰</div>
+      <h5>Cafe Kitsune</h5>
+      <p>Maison Kitsune 旗下，法日风男女装+咖啡</p>
+    </div>
+    <div class="store-item">
+      <div class="store-cat">男女装</div>
+      <h5>Ader Error</h5>
+      <p>韩国先锋时尚，oversized剪裁，门店像艺术画廊</p>
+    </div>
+    <div class="store-item">
+      <div class="store-cat">生活方式买手店</div>
+      <h5>Nice Weather Market</h5>
+      <p>服饰+杂货+葡萄酒+手工果酱，适合伴手礼</p>
+    </div>
+    <div class="store-item">
+      <div class="store-cat">买手店</div>
+      <h5>Around the Corner</h5>
+      <p>LG Fashion旗下，韩国新锐设计师品牌</p>
+    </div>
+  </div>
+
+  <div class="coffee-card">
+    <div class="coffee-icon">☕</div>
+    <div>
+      <h4>Cafe Kitsune</h4>
+      <div class="coffee-area">新沙洞林荫道 Garosu-Gil</div>
+      <div class="coffee-rec">Maison Kitsune 四层建筑，咖啡+购物一站式</div>
+    </div>
+  </div>
+
+  <div class="section-title"><span class="dot" style="background:var(--orange)"></span> Meals</div>
+  <div class="cards-grid">
+    <div class="card">
+      <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1555126634-323283e090fa?w=500&h=350&fit=crop')">
+        <span class="card-cat cat-food">Lunch</span>
+      </div>
+      <div class="card-body">
+        <h4>新沙洞林荫道周边</h4>
+        <div class="card-area">Garosu-Gil</div>
+        <p>林荫道上法式/意式小馆丰富，逛街时随意选择</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1580442151529-343f2f6e0e27?w=500&h=350&fit=crop')">
+        <span class="card-cat cat-food">Dinner</span>
+      </div>
+      <div class="card-body">
+        <h4>Poom Seoul / Teppan</h4>
+        <div class="card-area">汉南洞 · Grand Hyatt</div>
+        <p>Poom Seoul 精致韩餐 (人均8-15万KRW) 或 Grand Hyatt B1 Teppan 铁板烧 (人均15-25万KRW)</p>
+        <span class="tl-tag tag-reserve">需 CatchTable 预约</span>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ============ DAY 3: May 3 ============ -->
+<div class="day-section" id="day2">
+<div class="container">
+  <div class="day-header">
+    <img src="https://images.unsplash.com/photo-1601042879364-f3947d3f9c16?w=1200&h=500&fit=crop" alt="Seongsu-dong" loading="lazy">
+    <div class="day-header-overlay">
+      <h2>May 3 Sunday</h2>
+      <div class="theme">Seongsu-dong + Hannam-dong Shopping</div>
+    </div>
+  </div>
+
+  <div class="hotel-badge"><span class="icon">🏨</span> Grand Hyatt Seoul <span style="color:var(--text-light);font-size:0.8rem">汉南洞 · Night 2</span></div>
+
+  <div class="section-title"><span class="dot" style="background:var(--pink)"></span> Morning — 圣水洞 Seongsu-dong</div>
+  <div class="store-list">
+    <div class="store-item">
+      <div class="store-cat">美妆/体验</div>
+      <h5>OWM Seongsu</h5>
+      <p>免费AI皮肤检测+健康检查</p>
+    </div>
+    <div class="store-item">
+      <div class="store-cat">服饰/杂货</div>
+      <h5>kuoka</h5>
+      <p>圣水洞潮流店</p>
+    </div>
+    <div class="store-item">
+      <div class="store-cat">生活方式</div>
+      <h5>KINFOLK</h5>
+      <p>服饰和生活杂货</p>
+    </div>
+    <div class="store-item">
+      <div class="store-cat">护肤品</div>
+      <h5>BLUE ELEPHANT</h5>
+      <p>韩国护肤品牌</p>
+    </div>
+    <div class="store-item">
+      <div class="store-cat">杂货/文创</div>
+      <h5>miffy store SEOUL</h5>
+      <p>miffy联名周边，文具玩偶</p>
+    </div>
+    <div class="store-item">
+      <div class="store-cat">女装</div>
+      <h5>WHIPPED</h5>
+      <p>韩国女装品牌</p>
+    </div>
+    <div class="store-item" style="border-color:var(--accent)">
+      <div class="store-cat" style="color:var(--purple)">复合空间 · 推荐</div>
+      <h5>LCDC Seoul</h5>
+      <p>旧汽修厂改造，咖啡+买手店+天台酒吧</p>
+    </div>
+    <div class="store-item" style="border-color:var(--accent)">
+      <div class="store-cat" style="color:var(--purple)">男女装 · 推荐</div>
+      <h5>Musinsa Standard</h5>
+      <p>韩国最大时尚平台旗舰店，简约基础款</p>
+    </div>
+    <div class="store-item" style="border-color:var(--accent)">
+      <div class="store-cat" style="color:var(--purple)">打卡 · 推荐</div>
+      <h5>Dior Seongsu</h5>
+      <p>概念店+法式花园，建筑值得看</p>
+    </div>
+  </div>
+
+  <div class="section-title"><span class="dot" style="background:var(--orange)"></span> Lunch — 圣水洞</div>
+  <div class="cards-grid">
+    <div class="card">
+      <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1498654896293-37aacf113fd9?w=500&h=350&fit=crop')">
+        <span class="card-cat cat-food">Lunch</span>
+      </div>
+      <div class="card-body">
+        <h4>Daban Seongsu</h4>
+        <div class="card-area">圣水洞 · 现代韩餐</div>
+        <p>圣水洞最热门餐厅。招牌：陈年泡菜甘苔紫菜卷、海胆荞麦面</p>
+        <div class="card-price">人均 3-6万 KRW (¥140-280)</div>
+        <span class="tl-tag tag-reserve">建议预约</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="coffee-card">
+    <div class="coffee-icon">☕</div>
+    <div>
+      <h4>Ellemencheu</h4>
+      <div class="coffee-area">圣水洞</div>
+      <div class="coffee-rec">推荐：奶油拿铁</div>
+    </div>
+  </div>
+
+  <div class="section-title"><span class="dot" style="background:var(--pink)"></span> Afternoon — 汉南洞 Hannam-dong (8 Shops)</div>
+  <div class="store-list">
+    <div class="store-item" style="border-color:var(--accent)">
+      <div class="store-cat" style="color:var(--red)">女装 · 必逛</div>
+      <h5>Atelier Nain</h5>
+      <p>性价比超高，适合通勤</p>
+    </div>
+    <div class="store-item">
+      <div class="store-cat">包袋+女装</div>
+      <h5>Elborn</h5>
+      <p>波士顿包和开衫，质感突出</p>
+    </div>
+    <div class="store-item">
+      <div class="store-cat">女装</div>
+      <h5>Seooocookie</h5>
+      <p>博主多次回购老款</p>
+    </div>
+    <div class="store-item">
+      <div class="store-cat">男女装/生活方式</div>
+      <h5>Nothingwritten</h5>
+      <p>生活美学空间，基础常青款</p>
+    </div>
+    <div class="store-item">
+      <div class="store-cat">女装/配饰</div>
+      <h5>Depound</h5>
+      <p>偏少女风，公仔挂件小桶子</p>
+    </div>
+    <div class="store-item">
+      <div class="store-cat">女装</div>
+      <h5>Glowny</h5>
+      <p>韩式bm风格</p>
+    </div>
+    <div class="store-item">
+      <div class="store-cat">鞋</div>
+      <h5>Minitmute</h5>
+      <p>拼色凉拖鞋</p>
+    </div>
+    <div class="store-item">
+      <div class="store-cat">配饰/香氛</div>
+      <h5>Monclos</h5>
+      <p>DIY挂件、木质香调护手霜</p>
+    </div>
+  </div>
+
+  <div class="section-title"><span class="dot" style="background:#8b6f47"></span> Afternoon Tea</div>
+  <div class="cards-grid">
+    <div class="card">
+      <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=500&h=350&fit=crop')">
+        <span class="card-cat cat-coffee">Cafe</span>
+      </div>
+      <div class="card-body">
+        <h4>maha hannam</h4>
+        <div class="card-area">汉南洞 · 建筑设计师咖啡馆</div>
+        <p>藏在破旧社区小楼里，3楼设计感震撼。暖色原木风+黑色瓷砖，大窗可望汉南洞</p>
+        <div class="card-price">推荐：Cloud Caffe Latte + 提拉米苏</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title"><span class="dot" style="background:var(--orange)"></span> Dinner</div>
+  <div class="cards-grid">
+    <div class="card">
+      <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1559339352-11d035aa65de?w=500&h=350&fit=crop')">
+        <span class="card-cat cat-food">Dinner · Booked</span>
+      </div>
+      <div class="card-body">
+        <h4>SOSEOUL hannam</h4>
+        <div class="card-area">汉南洞 · 18:45</div>
+        <p>已预订 · 订金 KRW 300,000</p>
+        <span class="tl-tag tag-booked">已预订 via CatchTable</span>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ============ DAY 4: May 4 ============ -->
+<div class="day-section" id="day3">
+<div class="container">
+  <div class="day-header">
+    <img src="https://images.unsplash.com/photo-1596524430615-b46475ddff6e?w=1200&h=500&fit=crop" alt="Gangnam" loading="lazy">
+    <div class="day-header-overlay">
+      <h2>May 4 Monday</h2>
+      <div class="theme">Cheongdam / Apgujeong / Gangnam Shopping</div>
+    </div>
+  </div>
+
+  <div class="hotel-badge"><span class="icon">🏨</span> Ananti at Gangnam <span style="color:var(--text-light);font-size:0.8rem">江南 · 携程 · 设计感酒店 No.6</span></div>
+
+  <div class="section-title"><span class="dot" style="background:var(--orange)"></span> Lunch — 狎鸥亭</div>
+  <div class="cards-grid">
+    <div class="card">
+      <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=500&h=350&fit=crop')">
+        <span class="card-cat cat-food">Lunch</span>
+      </div>
+      <div class="card-body">
+        <h4>한우오마카세 우모크</h4>
+        <div class="card-area">狎鸥亭 · 韩牛Omakase</div>
+        <p>INS爆火！樱桃木烟熏炙烤，喷火炙烤表演，仪式感拉满</p>
+        <div class="card-price">午餐 7万 KRW/人 (约¥300)</div>
+        <span class="tl-tag tag-reserve">需 CatchTable 预约</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title"><span class="dot" style="background:var(--pink)"></span> Afternoon — 清潭洞 Cheongdam-dong</div>
+  <div class="store-list">
+    <div class="store-item" style="border-color:var(--accent)">
+      <div class="store-cat" style="color:var(--red)">针织/女装 · 必逛</div>
+      <h5>J.RIUM</h5>
+      <p>韩系老钱风针织，黑白灰米色，均价¥500+</p>
+    </div>
+    <div class="store-item" style="border-color:var(--accent)">
+      <div class="store-cat" style="color:var(--red)">眼镜 · 推荐</div>
+      <h5>Gentle Monster</h5>
+      <p>旗舰店，每层艺术装置，像美术馆</p>
+    </div>
+    <div class="store-item" style="border-color:var(--accent)">
+      <div class="store-cat" style="color:var(--red)">香水/香氛 · 推荐</div>
+      <h5>TAMBURINS</h5>
+      <p>无性别香氛，包装高级，适合伴手礼</p>
+    </div>
+    <div class="store-item" style="border-color:var(--accent)">
+      <div class="store-cat" style="color:var(--red)">甜品/咖啡 · 推荐</div>
+      <h5>NUDAKE</h5>
+      <p>超现实造型蛋糕和可颂</p>
+    </div>
+  </div>
+  <p style="font-size:0.82rem;color:var(--text-light);margin:8px 0 0 4px">* Gentle Monster / TAMBURINS / NUDAKE 在同一栋楼（岛山大路45街50号），一次逛完</p>
+
+  <div class="section-title"><span class="dot" style="background:var(--pink)"></span> 江南购物 Gangnam</div>
+  <div class="store-list">
+    <div class="store-item">
+      <div class="store-cat">配饰/女装</div>
+      <h5>Brown Hat</h5>
+      <p>毛绒绒耳罩等秋冬配饰，可能有折扣</p>
+    </div>
+    <div class="store-item">
+      <div class="store-cat">女装</div>
+      <h5>Sinoon</h5>
+      <p>复古少女鬼马风，容易缺货需预订</p>
+    </div>
+    <div class="store-item">
+      <div class="store-cat">女装</div>
+      <h5>Atelier Edition</h5>
+      <p>实穿有设计感，需要预订</p>
+    </div>
+    <div class="store-item">
+      <div class="store-cat">行李箱</div>
+      <h5>Rimowa</h5>
+      <p>sky blue 登机箱</p>
+    </div>
+  </div>
+
+  <div class="coffee-card">
+    <div class="coffee-icon">🍰</div>
+    <div>
+      <h4>NUDAKE</h4>
+      <div class="coffee-area">清潭洞 · Gentle Monster 大楼内</div>
+      <div class="coffee-rec">超现实造型蛋糕 + 咖啡，逛街中途休息</div>
+    </div>
+  </div>
+
+  <div class="section-title"><span class="dot" style="background:var(--orange)"></span> Dinner</div>
+  <div class="cards-grid">
+    <div class="card">
+      <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=500&h=350&fit=crop')">
+        <span class="card-cat cat-food">Dinner Option 1</span>
+      </div>
+      <div class="card-body">
+        <h4>Jungsik 정식당</h4>
+        <div class="card-area">清潭洞 · 米其林二星</div>
+        <p>首尔代表性现代韩餐 fine dining，传统韩餐全新演绎</p>
+        <div class="card-price">晚餐 18-30万 KRW/人</div>
+        <span class="tl-tag tag-reserve">需提前3-4周预约</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=500&h=350&fit=crop')">
+        <span class="card-cat cat-food">Dinner Option 2</span>
+      </div>
+      <div class="card-body">
+        <h4>Kwonsooksoo 권숙수</h4>
+        <div class="card-area">清潭洞 · 米其林一星</div>
+        <p>时令食材为核心，精致韩式套餐，空间宁静雅致</p>
+        <div class="card-price">人均 15-25万 KRW</div>
+        <span class="tl-tag tag-reserve">每月1日开放次月预约</span>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ============ DAY 5: May 5 ============ -->
+<div class="day-section" id="day4">
+<div class="container">
+  <div class="day-header">
+    <img src="https://images.unsplash.com/photo-1583225173760-4083df5c0856?w=1200&h=500&fit=crop" alt="Yeonnam-dong" loading="lazy">
+    <div class="day-header-overlay">
+      <h2>May 5 Tuesday</h2>
+      <div class="theme">Yeonnam-dong / Hongdae + Linda Departure</div>
+    </div>
+  </div>
+
+  <div class="hotel-badge warn"><span class="icon">⚠️</span><span class="warn"> Yichen 5/5晚住宿未预订！建议订仁川机场附近酒店</span></div>
+
+  <div class="section-title"><span class="dot" style="background:var(--green)"></span> Morning — 延南洞 / 弘大</div>
+  <p style="font-size:0.88rem;color:var(--text-light);margin-bottom:16px">首尔文艺青年和独立品牌聚集地，小巷里藏着独立咖啡店和杂货铺，适合随意探索</p>
+
+  <div class="coffee-card">
+    <div class="coffee-icon">☕</div>
+    <div>
+      <h4>Angbear Bake</h4>
+      <div class="coffee-area">延南洞</div>
+      <div class="coffee-rec">推荐：开心果冰淇淋拿铁</div>
+    </div>
+  </div>
+
+  <div class="alt-box">
+    <div class="alt-title">☕ 备选咖啡店</div>
+    <div class="alt-option">
+      <h5>Hippo Brunch Haus</h5>
+      <p>延南洞 · 维也纳咖啡</p>
+    </div>
+  </div>
+
+  <div class="section-title"><span class="dot" style="background:var(--blue)"></span> Afternoon — Linda Departure</div>
+  <div class="timeline">
+    <div class="tl-item flight">
+      <div class="tl-time">16:00</div>
+      <div class="tl-title">Linda 出发去仁川机场</div>
+      <div class="tl-desc">DL196 19:00 ICN → SEA · 建议提前3小时到机场</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time">16:00+</div>
+      <div class="tl-title">Yichen 自由活动</div>
+      <div class="tl-desc">可选：Tennis Metro 室内网球 (工作日1h约1万KRW)</div>
+      <span class="tl-tag tag-optional">可选</span>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ============ DAY 6: May 6 ============ -->
+<div class="day-section" id="day5">
+<div class="container">
+  <div class="day-header">
+    <img src="https://images.unsplash.com/photo-1436491865332-7a61a109db05?w=1200&h=500&fit=crop" alt="Airport" loading="lazy">
+    <div class="day-header-overlay">
+      <h2>May 6 Wednesday</h2>
+      <div class="theme">Yichen Return</div>
+    </div>
+  </div>
+
+  <div class="section-title"><span class="dot" style="background:var(--blue)"></span> Return Flight</div>
+
+  <div class="flight-card">
+    <div class="plane">✈️</div>
+    <div class="flight-route">
+      <div class="flight-city"><div class="code">ICN</div><div class="time">11:55</div></div>
+      <div class="flight-arrow">───➤</div>
+      <div class="flight-city"><div class="code">HGH</div><div class="time">13:05</div></div>
+    </div>
+    <div class="flight-info"><div class="fno">MU5072</div>Yichen · China Eastern</div>
+  </div>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-time">~08:00</div>
+      <div class="tl-title">出发前往仁川机场 T1</div>
+      <div class="tl-desc">建议 AREX 机场快线或打车</div>
+    </div>
+  </div>
+
+  <!-- Reservation Summary -->
+  <div class="reserve-summary">
+    <h3>📋 预约清单 Reservation Checklist</h3>
+    <table class="reserve-table">
+      <tr><th>项目</th><th>日期</th><th>状态</th><th>方式</th></tr>
+      <tr><td>SOSEOUL hannam 晚餐</td><td>5/3 18:45</td><td class="status-done">✅ 已预订</td><td>CatchTable</td></tr>
+      <tr><td>Atrio @ Conrad 晚餐</td><td>5/1 晚</td><td class="status-todo">❌ 需预约</td><td>CatchTable</td></tr>
+      <tr><td>Poom Seoul / Teppan</td><td>5/2 晚</td><td class="status-todo">❌ 需预约</td><td>CatchTable</td></tr>
+      <tr><td>Daban Seongsu 午餐</td><td>5/3 中午</td><td class="status-todo">❌ 建议预约</td><td>CatchTable</td></tr>
+      <tr><td>韩牛Omakase 우모크</td><td>5/4 中午</td><td class="status-todo">❌ 需预约</td><td>CatchTable</td></tr>
+      <tr><td>5/4 晚餐 (Jungsik等)</td><td>5/4 晚</td><td class="status-todo">❌ 需预约</td><td>CatchTable/官网</td></tr>
+      <tr><td>5/5晚 Yichen 住宿</td><td>5/5</td><td class="status-todo">❌ 需预订</td><td>—</td></tr>
+    </table>
+  </div>
+
+</div>
+</div>
+
+<div style="text-align:center;padding:40px 20px 60px;color:var(--text-light);font-size:0.82rem">
+  <p>Seoul Trip 2026 · Made with care</p>
+</div>
+
+<script>
+function showDay(idx) {
+  document.querySelectorAll('.day-section').forEach((s,i) => {
+    s.classList.toggle('active', i === idx);
+  });
+  document.querySelectorAll('.nav-tab').forEach((t,i) => {
+    t.classList.toggle('active', i === idx);
+  });
+  window.scrollTo({ top: document.querySelector('.nav-wrap').offsetTop, behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
